@@ -1,8 +1,10 @@
 import React from 'react';
 import { GoogleLogout } from 'react-google-login';
+import { useNavigate } from 'react-router-dom';
 
 function Logout({onLogout}) {
-    const CLIENT_ID="459880402329-mt19aunan8bs692kgvhigrigh3ipe9vn.apps.googleusercontent.com";
+    const CLIENT_ID="";
+   
 
     return (
         <div>

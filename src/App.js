@@ -1,49 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { gapi } from 'gapi-script';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import './App.css';
 import Home from './components/Home';
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('accessToken'));
-  const CLIENT_ID="459880402329-mt19aunan8bs692kgvhigrigh3ipe9vn.apps.googleusercontent.com";
-
-  const getToken = async () => {
-    console.log("ydyydydyydyd")
-    const response = await gapi.auth.getToken();
-    const accessToken = await response?.access_token;
-    setToken(accessToken);
-    localStorage.setItem('accessToken', accessToken);
-  }
-
-  useEffect(() => {
-    const start = async () => {
-      await gapi.client.init({
-        clientId: CLIENT_ID,
-        scope: ""
-      });
-      getToken();
-    }
-    gapi.load("client:auth2", start);
-  }, []);
-
-  const handleLogin = () => {
-    // console.log("yes working")
-    if (!token) {
-      gapi.auth2.getAuthInstance().signIn().then(() => getToken());
-    }
-  }
-
+  // const navigate = useNavigate();
   const handleLogout = () => {
     gapi.auth2.getAuthInstance().signOut().then(() => {
-      setToken(null);
+      // setToken(null);
       localStorage.removeItem('accessToken');
   
       // Clear sessionStorage
       sessionStorage.clear();
-  
+    
       // Clear all cookies
       document.cookie.split(";").forEach((cookie) => {
         const eqPos = cookie.indexOf("=");
@@ -58,6 +30,7 @@ function App() {
         });
       });
     });
+    window.location.href = 'http://localhost:3000/login';
   }
   
 
@@ -65,7 +38,7 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/login" element={<Login login={handleLogin} />} />
+          <Route path="/login" element={<Login  />} />
           <Route
             path="/"
             element={
